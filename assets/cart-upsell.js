@@ -73,23 +73,40 @@ class CartUpsell extends HTMLElement {
     this.#setLoading(true);
 
     const fetchLimit = Math.min(this.#limit + this.#cartProductIds.size + 2, 10);
-    const url = `${routes.root_url}recommendations/products.json?product_id=${this.#productId}&limit=${fetchLimit}&intent=related`;
+    const url = `/recommendations/products.json?product_id=${this.#productId}&limit=${fetchLimit}&intent=related`;
 
     try {
       const response = await fetch(url, { signal: this.#abortController.signal });
 
-      if (!response.ok) {
-        this.#renderEmpty();
-        return;
+      if (response.ok) {
+        const { products } = await response.json();
+        if (products && products.length > 0) {
+          this.#cachedRecommendations = products;
+          this.#setLoading(false);
+          this.#renderFromCache();
+          return;
+        }
       }
 
-      const { products } = await response.json();
-      this.#cachedRecommendations = products;
+      // Fallback: fetch from collection when recommendations are empty
+      const fallbackHandle = this.dataset.fallbackCollection || 'all';
+      const fallbackUrl = `/collections/${fallbackHandle}/products.json?limit=${fetchLimit}`;
+      const fallbackResponse = await fetch(fallbackUrl, { signal: this.#abortController.signal });
+
+      if (fallbackResponse.ok) {
+        const { products } = await fallbackResponse.json();
+        this.#cachedRecommendations = products || [];
+      } else {
+        this.#cachedRecommendations = [];
+      }
+
+      this.#setLoading(false);
       this.#renderFromCache();
     } catch (error) {
-      if (error.name !== 'AbortError') this.#renderEmpty();
-    } finally {
-      this.#setLoading(false);
+      if (error.name !== 'AbortError') {
+        this.#setLoading(false);
+        this.#renderEmpty();
+      }
     }
   }
 
