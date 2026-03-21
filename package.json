@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "avex-cart-upsell",
+  "description": "Cart upsell section for Dawn 15.4.1",
+  "scripts": {
+    "lint": "eslint assets/cart-upsell.js",
+    "format": "prettier --write assets/cart-upsell.js assets/cart-upsell.css sections/cart-upsell-recommendations.liquid",
+    "format:check": "prettier --check assets/cart-upsell.js assets/cart-upsell.css sections/cart-upsell-recommendations.liquid"
+  },
+  "devDependencies": {
+    "@shopify/prettier-plugin-liquid": "^1.10.2",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0"
+  }
+}

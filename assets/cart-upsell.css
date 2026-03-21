@@ -1,8 +1,7 @@
 /* Cart Upsell Recommendations */
 
 .cart-upsell {
-  padding-top: calc(var(--padding-top) * 1px);
-  padding-bottom: calc(var(--padding-bottom) * 1px);
+  display: block;
 }
 
 .cart-upsell__heading {
@@ -36,7 +35,10 @@
   display: block;
   aspect-ratio: 1;
   overflow: hidden;
-  border-radius: calc(var(--media-radius) * 1px / var(--media-shadow-horizontal-offset) * 0 + var(--media-radius) * 1px);
+  border-radius: calc(
+    var(--media-radius) * 1px / var(--media-shadow-horizontal-offset) * 0 + var(--media-radius) *
+      1px
+  );
   margin-bottom: 1rem;
   background: rgb(var(--color-background) / 0.04);
 }
@@ -112,9 +114,12 @@
 }
 
 .cart-upsell__loading {
-  display: flex;
   justify-content: center;
   padding: 3rem 0;
+}
+
+.cart-upsell__loading:not([hidden]) {
+  display: flex;
 }
 
 .cart-upsell__spinner {
