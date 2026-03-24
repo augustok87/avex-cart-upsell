@@ -6,7 +6,7 @@ Custom cart section that recommends products based on the first item in the cart
 
 ## Setup
 
-No build step — Shopify serves the assets directly. Push to `main` and the theme auto-syncs.
+No build step — Shopify serves the assets directly. Feature pushed to `main` branch.
 
 ## Files
 
